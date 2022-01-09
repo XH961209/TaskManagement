@@ -141,7 +141,8 @@ def consume_kafka():
                 msg_slices = msg.split('|')
                 if msg_slices[0] == "new user":
                     number = msg_slices[1]
-                    department = msg_slices[2]
+                    name = msg_slices[2]
+                    department = msg_slices[3]
                     add_task_employee(number=number, department=department, task="[用户激活]请修改密码来完成用户激活!")
                 elif msg_slices[0] == "update password":
                     number = msg_slices[1]
