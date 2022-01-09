@@ -32,5 +32,3 @@ https://www.apache.org/dyn/closer.cgi?path=/kafka/3.0.0/kafka_2.13-3.0.0.tgz
 `curl -i -H "Content-Type: application/json" -X POST http://127.0.0.1:5002/task/api/get_report`
 
 该api调用会查询获取部门任务完成情况统计报表
-
-若用户不存在，会提示`该用户不存在！`；若密码错误，会提示`密码错误！`；登录成功会提示`登录成功！`。
