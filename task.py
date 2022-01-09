@@ -15,6 +15,7 @@ app = Flask(__name__)
 #                ...
 #               }
 
+
 @app.route('/task/api/get_report', methods=['POST'])
 def get_report():
     """
@@ -58,6 +59,20 @@ def get_report():
         report[dpt]['total'] = total_task
 
     return report
+
+
+@app.route('/task/api/get_tasks', methods=['POST'])
+def get_report():
+    """
+    TODO: 获取用户任务列表
+    :return: dict表示的任务列表:
+    {
+        "任务1": 0/1是否完成,
+        "任务2": 0/1是否完成,
+        ...
+    }
+    """
+    pass
     
 
 def add_task_employee(number, department, task):
