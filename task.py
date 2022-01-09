@@ -62,7 +62,7 @@ def get_report():
 
 
 @app.route('/task/api/get_tasks', methods=['POST'])
-def get_report():
+def get_tasks():
     """
     TODO: 获取用户任务列表
     :return: dict表示的任务列表:
@@ -77,10 +77,10 @@ def get_report():
 
 def add_task_employee(number, department, task):
     """
-    给员工添加任务
+    给用户添加任务
     :param number: 工号
     :param department: 部门
-    :param task: 任务
+    :param task: 任务，字符串类型
     :return: None
     """
     key = "{}:{}".format(number, department)
@@ -142,10 +142,10 @@ def consume_kafka():
                 if msg_slices[0] == "new user":
                     number = msg_slices[1]
                     department = msg_slices[2]
-                    add_task_employee(number=number, department=department, task="[用户激活]请修改密码来完成用户激活！")
+                    add_task_employee(number=number, department=department, task="[用户激活]请修改密码来完成用户激活!")
                 elif msg_slices[0] == "update password":
                     number = msg_slices[1]
-                    finish_task(number=number, task="[用户激活]请修改密码来完成用户激活！")
+                    finish_task(number=number, task="[用户激活]请修改密码来完成用户激活!")
                 elif msg_slices[0] == "update department":
                     number = msg_slices[1]
                     department = msg_slices[2]
