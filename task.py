@@ -1,5 +1,6 @@
 import time
 import threading
+import json
 from flask import Flask
 from flask import request
 from flask import abort
@@ -46,33 +47,25 @@ def get_report():
         if len(employees) == 0: 
             continue
 
-        # total_finished = 0
-        total_task = 0
+        total_unfinished = 0
         report[dpt] = dict()
         for emp in employees:
             emp = emp.decode()
             emp_name = emp.split(":")[0]
-            report[dpt][emp_name] = redis_client.hlen(emp)
-            # for finished in redis_client.hvals(emp):
-            #     total_finished += finished.decode()
-            total_task += redis_client.hlen(emp)
-        report[dpt]['total'] = total_task
+            emp_unfinished = 0
+            report[dpt][emp_name] = dict()
+            report[dpt][emp_name]["未完成的任务"] = list()
+            for task, finished in redis_client.hgetall(emp).items():
+                task = task.decode()
+                finished = int(finished.decode())
+                if finished < 1:
+                    emp_unfinished += 1
+                    report[dpt][emp_name]["未完成的任务"].append(task)
+            total_unfinished += emp_unfinished
+            report[dpt][emp_name]["未完成的任务数量"] = emp_unfinished
+        report[dpt]['所有员工未完成的任务数量'] = total_unfinished
 
-    return report
-
-
-@app.route('/task/api/get_tasks', methods=['POST'])
-def get_tasks():
-    """
-    TODO: 获取用户任务列表
-    :return: dict表示的任务列表:
-    {
-        "任务1": 0/1是否完成,
-        "任务2": 0/1是否完成,
-        ...
-    }
-    """
-    pass
+    return json.dumps(report, indent=4, ensure_ascii=False) + '\n'
     
 
 def add_task_employee(number, department, task):
