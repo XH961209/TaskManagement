@@ -151,4 +151,4 @@ def consume_kafka():
 if __name__ == "__main__":
     consume_threading = threading.Thread(target=consume_kafka, name="ConsumeThreading")
     consume_threading.start()
-    app.run(port=5002)
+    app.run(host="0.0.0.0")
